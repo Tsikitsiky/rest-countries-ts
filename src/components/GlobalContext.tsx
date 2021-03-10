@@ -1,37 +1,69 @@
 import React, { createContext, useEffect, useReducer } from "react";
 
+interface subArr {
+    subArr: string
+}
+
+interface language {
+    name: string
+}
+
+interface currency {
+    code: string
+}
+
+interface Country {
+    name: string,
+        nativeName: string,
+        population: number,
+        flag: string,
+        region: string,
+        subregion: string,
+        capital: string,
+        topLevelDomain: subArr[],
+        currencies: currency[],
+        languages: language[],
+        borders: subArr[]
+}
+
 interface State {
-    allCountries?: [],
-    countriesToDisplay?: [],
+    allCountries?: Country[],
+    countriesToDisplay?: Country[],
     darkMode: boolean,
     loading: boolean
 }
 
 interface initial {
-    allCountries?: [],
-    countriesToDisplay?: [],
+    allCountries?: Country[],
+    countriesToDisplay?: Country[],
     darkMode: boolean,
     loading: boolean,
     searchACountry: (param: string) => void,
     filterByRegion: (param: string) => void,
+    switchMode: () => void,
 }
 
-const initialStates: initial = {
+const initialStates = {
     allCountries: [],
     countriesToDisplay: [],
     darkMode: false,
     loading: true,
     searchACountry: () => {},
     filterByRegion: () => {},
+    switchMode: () => {}
 }
 
+interface data {
+    data: []
+}
 
 type Action =
     | {type: "LOAD_DATA", data: []} 
-    | {type: "SEARCH_A_COUNTRY", data: []} 
-    | {type: "FILTER_BY_REGION", data: []}
+    | {type: "SEARCH_A_COUNTRY", data?: Country[]} 
+    | {type: "FILTER_BY_REGION", data?: Country[]}
+    | {type: "SWITCH_MODE"}
 
-const Context = createContext(initialStates);
+const Context = createContext<initial>(initialStates);
 
 function reducer(state: State, action: Action) {
     switch (action.type) {
@@ -54,15 +86,16 @@ function reducer(state: State, action: Action) {
                 loading: false,
                 countriesToDisplay: action.data
             }
+        case 'SWITCH_MODE':
+            return {
+                ...state,
+                darkMode: !state.darkMode
+            }
         default:
             return state
     }
 }
 
-interface Country {
-    name: string,
-    flag: string
-}
 
 const ContextProvider: React.FC = ({children}) => {
     const [state, dispatch] = useReducer(reducer, initialStates);
@@ -73,17 +106,23 @@ const ContextProvider: React.FC = ({children}) => {
     }
     useEffect(() => {
         fetchData();
-        
     }, [])
 
     function searchACountry(input: string) {
-        const countries = state.allCountries?.filter((country:Country) => country.name.includes(input));
+        console.log(input);
+        const countries = state.allCountries?.filter((country) => country.name.toLowerCase().includes(input.toLocaleLowerCase()));
         dispatch({type: "SEARCH_A_COUNTRY", data: countries})
     }
 
     function filterByRegion(input: string) {
-        const countries = state.allCountries?.filter((country: Country) => country.name.includes(input));
+        const countries = state.allCountries?.filter((country) => country.region === input);
         dispatch({type: "FILTER_BY_REGION", data: countries})
+    }
+
+    function switchMode() {
+        dispatch({type: "SWITCH_MODE"});
+        console.log('Dark?', state.darkMode);
+        
     }
     return (
         <Context.Provider value={{
@@ -92,7 +131,8 @@ const ContextProvider: React.FC = ({children}) => {
             darkMode: state.darkMode, 
             loading: state.loading,
             searchACountry: searchACountry,
-            filterByRegion: filterByRegion
+            filterByRegion: filterByRegion,
+            switchMode: switchMode,
             }}>
             {children}
         </Context.Provider>
