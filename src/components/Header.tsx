@@ -7,6 +7,7 @@ type Props ={
 }
 
 const Wrapper = styled.div`
+    //background-color: white;
     display: flex;
     justify-content: space-between;
     max-width: 1140px;
@@ -20,6 +21,7 @@ const Wrapper = styled.div`
     button {
         background-color: transparent;
         border: none;
+        outline: none;
     }
 `
 
@@ -27,10 +29,12 @@ const Wrapper = styled.div`
 const Header = ({title}:Props) => {
     const {darkMode, switchMode} = useContext(Context);
     return (
-        <Wrapper>
-            <h1  className={darkMode? 'dark' : ''} data-testid="title">{title}</h1>
-            <button  className={darkMode? 'dark' : ''} onClick={switchMode}>Mode</button>
+        <div className={darkMode? 'dark' : 'white'}>
+            <Wrapper>
+            <h1 data-testid="title">{title}</h1>
+            <button className={darkMode? 'dark' : ''} data-testid="swicthMode" onClick={switchMode}>Dark Mode</button>
         </Wrapper>
+        </div>
     )
 }
 

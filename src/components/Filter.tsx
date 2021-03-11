@@ -11,7 +11,7 @@ const Filter = () => {
     
     return (
         <Container>
-            <input placeholder="Search for a country" value={country} onChange={(e) => {
+            <input data-testid="search" placeholder="Search for a country" value={country} onChange={(e) => {
                 setCountry(e.target.value) 
                 searchACountry(e.target.value)
                 }} />

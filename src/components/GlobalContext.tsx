@@ -14,16 +14,16 @@ interface currency {
 
 interface Country {
     name: string,
-        nativeName: string,
-        population: number,
-        flag: string,
-        region: string,
-        subregion: string,
-        capital: string,
-        topLevelDomain: subArr[],
-        currencies: currency[],
-        languages: language[],
-        borders: subArr[]
+    nativeName: string,
+    population: number,
+    flag: string,
+    region: string,
+    subregion: string,
+    capital: string,
+    topLevelDomain: subArr[],
+    currencies: currency[],
+    languages: language[],
+    borders: subArr[]
 }
 
 interface State {
@@ -130,9 +130,9 @@ const ContextProvider: React.FC = ({children}) => {
             countriesToDisplay: state.countriesToDisplay, 
             darkMode: state.darkMode, 
             loading: state.loading,
-            searchACountry: searchACountry,
-            filterByRegion: filterByRegion,
-            switchMode: switchMode,
+            searchACountry,
+            filterByRegion,
+            switchMode,
             }}>
             {children}
         </Context.Provider>

@@ -9,7 +9,7 @@ const Countries = () => {
     console.log(countriesToDisplay);
     return (
         <Container>
-                {countriesToDisplay?.map((country) => <Card key={country.name} className={darkMode? 'dark': ''} >
+                {countriesToDisplay?.map((country) => <Card key={country.name} className={darkMode? 'dark': 'white'} >
                     <Link to={`/${country.name}`}>
                     <img src={country.flag} alt={country.name} style={{width: "300px"}} />
                     <div>
@@ -31,6 +31,7 @@ const Container = styled.div`
     flex-wrap: wrap;
     max-width: 1140px;
     margin: 0 auto;
+    
 
     .dark {
         background-color: hsl(219, 30%, 18%);
@@ -44,6 +45,7 @@ const Card = styled.div`
     max-width: 450px; 
     box-shadow: 0px 1px 0.5px 2px rgba(0,0,0,0.3);
     border-radius: 2px;
+    background-color: white;
      
      a {
          color: black;
