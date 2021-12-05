@@ -9,11 +9,11 @@ const Countries = () => {
     console.log(countriesToDisplay);
     return (
         <Container>
-                {countriesToDisplay?.map((country) => <Card key={country.name} className={darkMode? 'dark': 'white'} >
-                    <Link to={`/${country.name}`}>
-                    <img src={country.flag} alt={country.name} style={{width: "300px"}} />
+                {countriesToDisplay?.map((country) => <Card key={country.name.common} className='card' >
+                    <Link to={`/${country.name.common}`}>
+                    <img src={country.flags.png} alt={country.name.common} />
                     <div>
-                        <h3>{country.name}</h3>
+                        <h3>{country.name.common}</h3>
                         <p>Population: {country.population}</p>
                         <p>Region: {country.region}</p>
                         <p>Capital: {country.capital}</p>
@@ -26,36 +26,41 @@ const Countries = () => {
 
 const Container = styled.div`
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+    align-items: center;
     row-gap: 2rem;
+
+@media (min-width: 376px) {
+    flex-direction: row;
+    justify-content: space-between; 
     flex-wrap: wrap;
-    max-width: 1140px;
+    max-width: 1240px;
     margin: 0 auto;
-    
+    height: 100%;
 
-    .dark {
-        background-color: hsl(219, 30%, 18%);
-        a {
-            color: white;
-        }
-    }
-`;
+}
 
-const Card = styled.div`
-    max-width: 450px; 
-    box-shadow: 0px 1px 0.5px 2px rgba(0,0,0,0.3);
-    border-radius: 2px;
-    background-color: white;
-     
-     a {
-         color: black;
+    a {
+        color: ${props => props.theme.colors.primary};
          text-decoration: none; 
      }
 
+    .card {
+        background-color: ${props => props.theme.colors.backgroundElement}
+    }
+    
+`;
+
+const Card = styled.div`
+    max-width: 270px; 
+    box-shadow: 0px 1px 3px 1px rgb(0 0 0 / 30%);
+    border-radius: 2px;
+    background-color: 'red';
+      
     img {
         width: 100%;
         height: 200px;
-        box-shadow: 0px 1px 0px 0px rgba(0,0,0,0.3);
+        box-shadow: 0px 1px 3px 1px rgb(0 0 0 / 30%)
     }
     div {
         padding: 0 1rem;

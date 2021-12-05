@@ -1,29 +1,31 @@
 import React, { createContext, useEffect, useReducer } from "react";
 
-interface subArr {
+interface SubArr {
     subArr: string
 }
 
-interface language {
-    name: string
+
+interface Name {
+    common : string,
+    nativeName: any
 }
 
-interface currency {
-    code: string
+interface Flag {
+    png: string
 }
+
 
 interface Country {
-    name: string,
-    nativeName: string,
+    name: Name,
     population: number,
-    flag: string,
+    flags: Flag,
     region: string,
     subregion: string,
     capital: string,
-    topLevelDomain: subArr[],
-    currencies: currency[],
-    languages: language[],
-    borders: subArr[]
+    tld: SubArr[],
+    currencies: any,
+    languages: any,
+    borders: SubArr[]
 }
 
 interface State {
@@ -100,7 +102,7 @@ function reducer(state: State, action: Action) {
 const ContextProvider: React.FC = ({children}) => {
     const [state, dispatch] = useReducer(reducer, initialStates);
     async function fetchData() {
-        const data = await fetch('https://restcountries.eu/rest/v2/all');
+        const data = await fetch('https://restcountries.com/v3.1/all');
         const response = await data.json();
         dispatch({type: "LOAD_DATA", data: response})
     }
@@ -110,7 +112,7 @@ const ContextProvider: React.FC = ({children}) => {
 
     function searchACountry(input: string) {
         console.log(input);
-        const countries = state.allCountries?.filter((country) => country.name.toLowerCase().includes(input.toLocaleLowerCase()));
+        const countries = state.allCountries?.filter((country) => country.name.common.toLowerCase().includes(input.toLocaleLowerCase()));
         dispatch({type: "SEARCH_A_COUNTRY", data: countries})
     }
 

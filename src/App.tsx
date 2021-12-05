@@ -3,14 +3,15 @@ import Home from './pages/home';
 import { Route, Switch } from 'react-router';
 import CountryDetail from './pages/countryDetail';
 import { Context } from './components/GlobalContext';
-import styled from 'styled-components';
+import styled, {ThemeProvider} from 'styled-components';
+import {CUSTOM_THEMES } from './theme'
 
 
 function App() {
   const {darkMode} = useContext(Context);
   return (
-    <Container>
-      <div className={darkMode? 'dark' : 'normal'}>
+    <ThemeProvider theme={darkMode ? CUSTOM_THEMES.dark : CUSTOM_THEMES.light}>
+      <Container>
         <Switch>
           <Route exact path="/">
             <Home />
@@ -19,23 +20,14 @@ function App() {
             <CountryDetail />
           </Route>
         </Switch>
-    </div>
     </Container>
+    </ThemeProvider>
   );
 }
 
 const Container = styled.div`
-  //background-color: hsl(220.00000000000006, 31.034482758620722%, 94.31372549019608%);
-  .dark {
-    background-color: hsl(216, 53%, 9%);
-    color: white;
-    
-    .dark {
-      background-color: hsl(219, 30%, 18%);
-    }
-    .white {
-      background-color: white;
-    }
+  background-color: ${props => props.theme.colors.background};
+  color: ${props => props.theme.colors.primary}
   }
 `;
 

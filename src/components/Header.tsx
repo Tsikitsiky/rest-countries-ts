@@ -7,21 +7,22 @@ type Props ={
 }
 
 const Wrapper = styled.div`
-    //background-color: white;
-    display: flex;
-    justify-content: space-between;
-    max-width: 1140px;
-    margin: 0 auto;
+    width: 100%;
+    background-color: ${props => props.theme.colors.backgroundElement};
+    color: ${props => props.theme.colors.primary};
+    box-shadow: 0 0.3rem 0.5rem 0 rgba(0,0,0,0.06);
 
-    .dark {
-        color: white;
-        background-color: hsl(219, 30%, 18%);
+    .content {
+        display: flex;
+        justify-content: space-between;
+        max-width: 1240px;
+        margin: 0 auto;
     }
 
     button {
-        background-color: transparent;
+        background: none;
         border: none;
-        outline: none;
+        color: ${props => props.theme.colors.primary};
     }
 `
 
@@ -29,12 +30,12 @@ const Wrapper = styled.div`
 const Header = ({title}:Props) => {
     const {darkMode, switchMode} = useContext(Context);
     return (
-        <div className={darkMode? 'dark' : 'white'}>
             <Wrapper>
-            <h1 data-testid="title">{title}</h1>
-            <button className={darkMode? 'dark' : ''} data-testid="swicthMode" onClick={switchMode}>Dark Mode</button>
-        </Wrapper>
-        </div>
+                <div className='content'>
+                    <h1 className={darkMode? 'dark' : ''} data-testid="title">{title}</h1>
+                    <button data-testid="swicthMode" onClick={switchMode}>Dark Mode</button>
+                </div>
+            </Wrapper>
     )
 }
 

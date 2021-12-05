@@ -13,8 +13,18 @@ const CountryDetail = () => {
 
     const  { name} = useParams<RouteParams>();
     const {allCountries, darkMode} = useContext(Context);
-    const country = allCountries?.find((country) => country.name === name);
+    const country = allCountries?.find((country) => country.name.common === name);
+    
     console.log(country);
+
+
+    const nativeName = Object.values<any>(country?.name.nativeName)[0].common;
+    const currency = Object.values<any>(country?.currencies)[0].name;
+    const languages = Object.values<any>(country?.languages)
+    // for(let prop in country?.name.nativeName) {
+    //     langCode= country?.name.nativeName[prop]
+    // }
+    console.log(languages);
 
     return (
         <>
@@ -23,17 +33,17 @@ const CountryDetail = () => {
                 <Link to="/">Back</Link>
             </Container>
             <Container>
-                <img src={country?.flag} alt={`${country?.name}'s flag`}/>
+                <img src={country?.flags.png} alt={`${country?.name.common}'s flag`}/>
                 <div className={darkMode? 'dark':''}>
                     <TextWrapper>
-                        <p>Native Name: {country?.nativeName}</p>
+                        <p>Native Name: {nativeName}</p>
                         <p>Population: {country?.population}</p>
                         <p>Region: {country?.region}</p>
                         <p>Sub Region: {country?.subregion}</p>
                         <p>Capital: {country?.capital}</p>
-                        <p>Top Level Domain: {country?.topLevelDomain.map(str => <span key={`${str}`}>{str}</span>)}</p>
-                        <p>Currencies: {country?.currencies.map(str => <span key={`${str}`}>{str.code}</span>)}</p>
-                        <p>Languages: {country?.languages.map(str => <span key={str.name}>{str.name}</span>)}</p>
+                        <p>Top Level Domain: {country?.tld.map(str => <span key={`${str}`}>{str}</span>)}</p>
+                        <p>Currencies: {currency}</p>
+                        <p>Languages: {languages.map(lang => <span key={`${lang}`}>{lang}&nbsp;</span>)}</p>
                     </TextWrapper>
                     <Border>Boreder Countries: {country?.borders.map(str => <span key={`${str}`}>{str}&nbsp;</span>)} </Border>
                 </div>
